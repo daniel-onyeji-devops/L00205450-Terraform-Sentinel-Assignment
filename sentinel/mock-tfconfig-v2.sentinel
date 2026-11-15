@@ -1,9 +1,12 @@
 
 # Simulated AWS provider configuration for Ireland
+# ATU DevOps Assignment - L00205450
+
 providers = {
     "aws": {
         "name": "aws",
         "full_name": "registry.terraform.io/hashicorp/aws",
+        "version_constraint": "= 5.100.0",
         "config": {
             "region": {
                 "constant_value": "eu-west-1",
@@ -11,4 +14,6 @@ providers = {
         },
     },
 }
+
+# No external Terraform modules are currently used
 module_calls = {}

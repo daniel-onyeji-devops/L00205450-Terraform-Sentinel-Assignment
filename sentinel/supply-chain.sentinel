@@ -1,31 +1,41 @@
 
-# Check Terraform providers and modules
+# Supply-Chain Security Policy
+# ATU DevOps Assignment - L00205450
+
 import "tfconfig/v2" as tfconfig
 
-# Approved Terraform providers
+# Approved Terraform provider
 approved_providers = [
     "registry.terraform.io/hashicorp/aws",
 ]
 
-# Approved Terraform module source
+# Approved AWS provider version
+approved_provider_version = "= 5.100.0"
+
+# Approved Terraform module
 approved_module = "terraform-aws-modules/vpc/aws"
 
-# Check every provider against the approved list
+# Approved module version
+approved_module_version = "5.0.0"
+
+# Check provider source and version
 providers_allowed = rule {
     length(tfconfig.providers) > 0 and
     all tfconfig.providers as _, p {
-        p.full_name in approved_providers
+        p.full_name in approved_providers and
+        (p.version_constraint else "") is approved_provider_version
     }
 }
 
-# Check every module against the approved source
+# Check module source and pinned version
 modules_allowed = rule {
     all tfconfig.module_calls as _, m {
-        m.source is approved_module
+        m.source is approved_module and
+        (m.version_constraint else "") is approved_module_version
     }
 }
 
-# Both checks must pass
+# Both security checks must pass
 main = rule {
     providers_allowed and modules_allowed
 }
