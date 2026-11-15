@@ -1,0 +1,13 @@
+
+# Simulated AWS provider configured outside Ireland
+providers = {
+    "aws": {
+        "name": "aws",
+        "full_name": "registry.terraform.io/hashicorp/aws",
+        "config": {
+            "region": {
+                "constant_value": "us-east-1",
+            },
+        },
+    },
+}

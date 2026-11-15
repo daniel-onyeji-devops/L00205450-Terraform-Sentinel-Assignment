@@ -1,0 +1,19 @@
+
+# Test an unapproved Terraform module version
+# ATU DevOps Assignment - L00205450
+
+providers = {
+    "aws": {
+        "name": "aws",
+        "full_name": "registry.terraform.io/hashicorp/aws",
+        "version_constraint": "= 5.100.0",
+        "config": {},
+    },
+}
+
+module_calls = {
+    "approved_vpc": {
+        "source": "terraform-aws-modules/vpc/aws",
+        "version_constraint": "4.0.0",
+    },
+}

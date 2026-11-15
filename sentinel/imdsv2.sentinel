@@ -1,0 +1,20 @@
+
+# Read the proposed Terraform infrastructure
+import "tfplan/v2" as tfplan
+
+# Find EC2 instances being created or updated
+ec2_instances = filter tfplan.resource_changes as _, rc {
+    rc.type is "aws_instance" and
+    rc.mode is "managed" and
+    (rc.change.actions contains "create" or
+     rc.change.actions contains "update")
+}
+
+# Require IMDSv2 for every EC2 instance
+main = rule {
+    all ec2_instances as _, instance {
+        instance.change.after.metadata_options is not null and
+        length(instance.change.after.metadata_options) > 0 and
+        instance.change.after.metadata_options[0].http_tokens is "required"
+    }
+}

@@ -1,0 +1,17 @@
+
+# Simulate a security group allowing public SSH access
+resource_changes = {
+    "aws_vpc_security_group_ingress_rule.public_ssh": {
+        "type": "aws_vpc_security_group_ingress_rule",
+        "mode": "managed",
+        "change": {
+            "actions": ["create"],
+            "after": {
+                "cidr_ipv4": "0.0.0.0/0",
+                "ip_protocol": "tcp",
+                "from_port": 22,
+                "to_port": 22,
+            },
+        },
+    },
+}

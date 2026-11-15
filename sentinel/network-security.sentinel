@@ -1,0 +1,41 @@
+
+import "tfplan/v2" as tfplan
+
+# Find incoming security group rules
+ingress_rules = filter tfplan.resource_changes as _, rc {
+    rc.type is "aws_vpc_security_group_ingress_rule" and
+    rc.mode is "managed" and
+    (rc.change.actions contains "create" or
+     rc.change.actions contains "update")
+}
+
+# Find rules open to the entire IPv4 internet
+public_rules = filter ingress_rules as _, ingress {
+    ingress.change.after.cidr_ipv4 is "0.0.0.0/0"
+}
+
+# Find public rules allowing all protocols
+all_protocols = filter public_rules as _, ingress {
+    ingress.change.after.ip_protocol is "-1"
+}
+
+# Find public SSH access
+public_ssh = filter public_rules as _, ingress {
+    ingress.change.after.ip_protocol is "tcp" and
+    ingress.change.after.from_port <= 22 and
+    ingress.change.after.to_port >= 22
+}
+
+# Find public RDP access
+public_rdp = filter public_rules as _, ingress {
+    ingress.change.after.ip_protocol is "tcp" and
+    ingress.change.after.from_port <= 3389 and
+    ingress.change.after.to_port >= 3389
+}
+
+# Reject any matching insecure rules
+main = rule {
+    length(all_protocols) is 0 and
+    length(public_ssh) is 0 and
+    length(public_rdp) is 0
+}

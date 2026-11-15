@@ -1,0 +1,27 @@
+PASS - encryption.sentinel
+  PASS - test/encryption/fail.hcl
+  PASS - test/encryption/pass.hcl
+1 tests completed in 1.405166ms
+PASS - sovereignty.sentinel
+  PASS - test/sovereignty/fail.hcl
+  PASS - test/sovereignty/pass.hcl
+1 tests completed in 1.22475ms
+PASS - supply-chain.sentinel
+  PASS - test/supply-chain/bad-module.hcl
+  PASS - test/supply-chain/fail.hcl
+  PASS - test/supply-chain/pass.hcl
+  PASS - test/supply-chain/wrong-module-version.hcl
+  PASS - test/supply-chain/wrong-version.hcl
+1 tests completed in 1.324625ms
+PASS - ec2-security.sentinel
+  PASS - test/ec2-security/fail.hcl
+  PASS - test/ec2-security/pass.hcl
+1 tests completed in 3.325291ms
+PASS - imdsv2.sentinel
+  PASS - test/imdsv2/fail.hcl
+  PASS - test/imdsv2/pass.hcl
+1 tests completed in 1.123ms
+PASS - network-security.sentinel
+  PASS - test/network-security/fail.hcl
+  PASS - test/network-security/pass.hcl
+1 tests completed in 1.090625ms

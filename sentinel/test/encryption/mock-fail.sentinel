@@ -1,0 +1,14 @@
+
+# Simulated insecure EBS volume for testing
+resource_changes = {
+    "aws_ebs_volume.insecure_storage": {
+        "type": "aws_ebs_volume",
+        "mode": "managed",
+        "change": {
+            "actions": ["create"],
+            "after": {
+                "encrypted": false,
+            },
+        },
+    },
+}

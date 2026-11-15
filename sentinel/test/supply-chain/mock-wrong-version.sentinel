@@ -1,0 +1,16 @@
+
+# Simulated AWS provider with an unapproved version
+providers = {
+    "aws": {
+        "name": "aws",
+        "full_name": "registry.terraform.io/hashicorp/aws",
+        "version_constraint": "= 4.0.0",
+        "config": {
+            "region": {
+                "constant_value": "eu-west-1",
+            },
+        },
+    },
+}
+
+module_calls = {}

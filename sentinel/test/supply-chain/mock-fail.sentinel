@@ -1,0 +1,12 @@
+
+# Simulate a Terraform configuration using an unapproved provider
+providers = {
+    "random": {
+        "name": "random",
+        "full_name": "registry.terraform.io/hashicorp/random",
+        "config": {},
+    },
+}
+
+# No external modules are used
+module_calls = {}
