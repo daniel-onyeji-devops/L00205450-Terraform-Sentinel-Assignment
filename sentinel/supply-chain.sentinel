@@ -1,0 +1,31 @@
+
+# Check Terraform providers and modules
+import "tfconfig/v2" as tfconfig
+
+# Approved Terraform providers
+approved_providers = [
+    "registry.terraform.io/hashicorp/aws",
+]
+
+# Approved Terraform module source
+approved_module = "terraform-aws-modules/vpc/aws"
+
+# Check every provider against the approved list
+providers_allowed = rule {
+    length(tfconfig.providers) > 0 and
+    all tfconfig.providers as _, p {
+        p.full_name in approved_providers
+    }
+}
+
+# Check every module against the approved source
+modules_allowed = rule {
+    all tfconfig.module_calls as _, m {
+        m.source is approved_module
+    }
+}
+
+# Both checks must pass
+main = rule {
+    providers_allowed and modules_allowed
+}

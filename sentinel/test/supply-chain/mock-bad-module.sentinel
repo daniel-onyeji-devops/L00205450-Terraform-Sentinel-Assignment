@@ -1,0 +1,16 @@
+
+# Simulate an approved AWS provider
+providers = {
+    "aws": {
+        "name": "aws",
+        "full_name": "registry.terraform.io/hashicorp/aws",
+        "config": {},
+    },
+}
+
+# Simulate an unapproved Terraform module
+module_calls = {
+    "unapproved_vpc": {
+        "source": "example-company/vpc/aws",
+    },
+}

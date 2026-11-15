@@ -1,0 +1,48 @@
+
+# Simulated Terraform plan with one encrypted EBS volume
+resource_changes = {
+    "aws_ebs_volume.secure_storage": {
+        "type": "aws_ebs_volume",
+        "mode": "managed",
+        "change": {
+            "actions": ["create"],
+            "after": {
+                "encrypted": true,
+            },
+        },
+    },
+}
+
+# Simulated approved EC2 instance
+resource_changes["aws_instance.approved_server"] = {
+    "type": "aws_instance",
+    "mode": "managed",
+    "change": {
+        "actions": ["create"],
+        "after": {
+           "instance_type": "t3.micro",
+       
+            "metadata_options": [
+                {
+                    "http_tokens": "required",
+                },
+            ],
+        },
+    },
+}
+
+# Simulated security group rule allowing SSH from a private network
+resource_changes["aws_vpc_security_group_ingress_rule.safe_ssh"] = {
+    "type": "aws_vpc_security_group_ingress_rule",
+    "mode": "managed",
+    "change": {
+        "actions": ["create"],
+        "after": {
+            "cidr_ipv4": "10.0.0.0/8",
+            "ip_protocol": "tcp",
+            "from_port": 22,
+            "to_port": 22,
+        },
+    },
+}
+

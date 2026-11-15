@@ -1,0 +1,19 @@
+
+# Check AWS provider regions for digital sovereignty
+import "tfconfig/v2" as tfconfig
+
+# Ireland is our only approved AWS region
+approved_region = "eu-west-1"
+
+# Find all AWS provider configurations
+aws_providers = filter tfconfig.providers as _, p {
+    p.name is "aws"
+}
+
+# Reject configurations using unapproved regions
+main = rule {
+    length(aws_providers) > 0 and
+    all aws_providers as _, p {
+        (p.config.region.constant_value else "") is approved_region
+    }
+}

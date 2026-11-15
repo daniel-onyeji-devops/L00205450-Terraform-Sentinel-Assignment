@@ -1,0 +1,18 @@
+
+# Read the infrastructure plan produced by Terraform
+import "tfplan/v2" as tfplan
+
+# Find EBS volumes being created or updated
+ebs_volumes = filter tfplan.resource_changes as _, rc {
+    rc.type is "aws_ebs_volume" and
+    rc.mode is "managed" and
+    (rc.change.actions contains "create" or
+     rc.change.actions contains "update")
+}
+
+# Every selected volume must have encryption enabled
+main = rule {
+    all ebs_volumes as _, volume {
+        volume.change.after.encrypted is true
+    }
+}

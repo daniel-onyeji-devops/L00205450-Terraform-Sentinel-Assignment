@@ -1,0 +1,14 @@
+
+# Simulate an EC2 server with an unapproved instance type
+resource_changes = {
+    "aws_instance.unapproved_server": {
+        "type": "aws_instance",
+        "mode": "managed",
+        "change": {
+            "actions": ["create"],
+            "after": {
+                "instance_type": "m5.24xlarge",
+            },
+        },
+    },
+}
